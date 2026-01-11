@@ -1,0 +1,28 @@
+@model SpendSmart.Models.Expense
+
+@{
+    ViewData["Title"] = "Delete Expense";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Are you sure you want to delete this expense?</p>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+
+            <dt class="col-sm-3">Value</dt>
+            <dd class="col-sm-9">@Model.Value.ToString("C")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteExpense" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Expense" class="btn btn-secondary">Cancel</a>
+</form>

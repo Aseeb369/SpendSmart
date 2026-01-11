@@ -1,0 +1,13 @@
+# Visual Studio / .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.nupkg
+*.log
+*.db
+appsettings.Local.json
+.vscode/
+

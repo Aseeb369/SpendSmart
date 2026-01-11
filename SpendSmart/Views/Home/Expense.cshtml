@@ -1,0 +1,48 @@
+﻿@model List<SpendSmart.Models.Expense>
+
+@{
+    ViewData["Title"] = "Expense List";
+    var total = Model?.Sum(e => e.Value) ?? 0m;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Expenses</h1>
+    <hr />
+    <h3>Total expenses: @total.ToString("C")</h3>
+</div>
+
+<h2>All Expenses</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">No expenses found.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model)
+            {
+                <tr>
+                    <td>@expense.Id</td>
+                    <td>@expense.Value.ToString("C")</td>
+                    <td>@expense.Description</td>
+                    <td>
+                        <a asp-action="CreateEditExpense" asp-route-id="@expense.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="DeleteExpense" asp-route-id="@expense.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="CreateEditExpense" class="btn btn-primary">Create New Expense</a>
