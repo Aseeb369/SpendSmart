@@ -4,21 +4,49 @@
 
 @model SpendSmart.Models.Expense
 
-
-
 <div class="text-center">
-    <h1 class="display-4">Create or edit an expenses</h1>
+    <h1 class="display-4">Create or Edit Expense</h1>
 </div>
 
 <form asp-action="CreateEditExpenseForm" asp-controller="Home">
-    <label>Id</label>
-    <input hidden class="form-control" type="number"  placeholder="0" asp-for="Id"/>
 
-    <labe class="mt-4"l>Value $</labe>
-    <input class="form-control" type="number" placeholder="0" asp-for="Value" step="0.01" />
+    <input hidden asp-for="Id" />
+
+    <label class="mt-4">Value ₹</label>
+    <input class="form-control"
+           type="number"
+           asp-for="Value"
+           step="0.01" />
+    <span asp-validation-for="Value" class="text-danger"></span>
 
     <label class="mt-4">Description</label>
-    <input class="form-control" type="text" placeholder="Add a description" asp-for="Description" />
+    <input class="form-control"
+           type="text"
+           asp-for="Description" />
+    <span asp-validation-for="Description" class="text-danger"></span>
 
-    <button class="btn-primary mt-4" type="submit">  Ok</button>
+    <label class="mt-4">Category</label>
+
+    <select class="form-control" asp-for="Category">
+        <option value="">Select Category</option>
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Others">Others</option>
+    </select>
+
+    
+
+    <span asp-validation-for="Category"
+          class="text-danger"></span>
+
+    <button class="btn btn-primary mt-4" type="submit">
+        Ok
+    </button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

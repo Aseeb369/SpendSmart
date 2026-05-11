@@ -64,13 +64,15 @@ namespace SpendSmart.Controllers
                 }
                 else
                 {
-                    // Load and update only the properties you intend to change
                     var existing = await _context.Expenses.FindAsync(model.Id);
+
                     if (existing == null)
                         return NotFound();
 
                     existing.Value = model.Value;
                     existing.Description = model.Description;
+                    existing.Category = model.Category;
+
                     _context.Expenses.Update(existing);
                 }
 
@@ -122,6 +124,8 @@ namespace SpendSmart.Controllers
             }
         }
 
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -135,5 +139,19 @@ namespace SpendSmart.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
         }
+    
+    public IActionResult Overview()
+        {
+            var categoryTotals = _context.Expenses
+                .GroupBy(e => e.Category)
+                .Select(g => new CategorySummary
+                {
+                    Category = g.Key,
+                    TotalAmount = g.Sum(e => e.Value)
+                })
+                .ToList();
+
+            return View(categoryTotals);
+        }
     }
-}
+    }
